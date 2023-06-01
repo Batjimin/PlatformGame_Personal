@@ -2,7 +2,6 @@ import pygame as pg
 from abc import ABC, abstractmethod
 import os
 
-
 #키설정
 keybinding = {
     'action': pg.K_SPACE,
@@ -17,7 +16,7 @@ def get_image(sheet, x, y, width, height, colorkey, scale):
     image = pg.Surface([width,height])
     rect = image.get_rect()
     image.set_colorkey(colorkey)
-    image.blit(sheet,(0,0),(x,y,width,height)) #시트에서 이미지 가져오기
+    image.blit(sheet,(0,0),(x,y,width,height)) #시트에서 이미지 가져오기-이미지,좌표,영역
     image = pg.transform.scale(image, (int(rect.width*scale),int(rect.height*scale)))
     return image
     

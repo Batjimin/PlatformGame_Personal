@@ -2,10 +2,11 @@ import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
 
+#충돌 처리
 class Collider(pg.sprite.Sprite):
     def __init__(self, x, y, width, height, name):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((width, height)).convert()
+        self.image = pg.Surface((width, height)).convert() #테두리 따고 투명도 처리
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -14,6 +15,7 @@ class Collider(pg.sprite.Sprite):
             self.image.fill(Set.RED)
             #Set.DEBUG가 True인 경우에만 self.image를 Set.RED 색상으로 채움.
 
+#진행 상태 저장
 class Checkpoint(pg.sprite.Sprite):
     def __init__(self, x, y, width, height, type, enemy_groupid=0, map_index=0, name=Set.MAP_CHECKPOINT):
         pg.sprite.Sprite.__init__(self)
@@ -24,7 +26,7 @@ class Checkpoint(pg.sprite.Sprite):
         self.type = type
         self.enemy_groupid = enemy_groupid
         self.map_index = map_index
-        self.name = name
+        self.name = name #Set.MAP_CHECKPOINT
 
 class Etc(pg.sprite.Sprite):
     def __init__(self, x, y, sheet, image_rect_list, scale):
@@ -32,14 +34,18 @@ class Etc(pg.sprite.Sprite):
         
         self.frames = []
         self.frame_index = 0
+        #시트에서 비율만큼 이미지 추출해 frames리스트에 추가
         for image_rect in image_rect_list:
-            self.frames.append(tools.get_image(sheet, 
-                    *image_rect, Set.BLACK, scale))
+            self.frames.append(tools.get_image(
+                sheet, *image_rect, Set.BLACK, scale
+            ))
+        #이미지에 추가하고 사각 영역 초기화
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
     
+    #빈 메서드. 상속자가 사용할 예정.
     def update(self, *args):
         pass
 
@@ -62,6 +68,7 @@ class Flag(Etc):
 
     def update(self):
         if self.state == Set.SLIDE_DOWN:
+            #아래로 내려가고 y좌표가 485를 넘으면 state변경.
             self.rect.y += self.y_vel
             if self.rect.bottom >= 485:
                 self.state = Set.BOTTOM_OF_POLE
@@ -74,9 +81,11 @@ class CastleFlag(Etc):
         self.target_height = y
     
     def update(self):
+        #특정 높이까지 -2씩 이동
         if self.rect.bottom > self.target_height:
             self.rect.y += self.y_vel
 
+#정수 스프라이트
 class Digit(pg.sprite.Sprite):
     def __init__(self, image):
         pg.sprite.Sprite.__init__(self)
@@ -91,7 +100,10 @@ class Score():
         self.create_images_dict()
         self.score = score
         self.create_score_digit()
-        self.distance = 130 if self.score == 1000 else 75
+        if self.score==1000:
+            self.distance = 130
+        else:
+            self.distance = 75
         
     def create_images_dict(self):
         self.image_dict = {}
@@ -101,25 +113,30 @@ class Score():
                             (0, 0, 0, 0), (0, 0, 0, 0),
                             (20, 168, 4, 8), (0, 0, 0, 0)]
         digit_string = '0123456789'
+        #zip함수 : 두 리스트 묶어서 순서대로 조합 -> 튜플로 표현
         for digit, image_rect in zip(digit_string, digit_rect_list):
             self.image_dict[digit] = tools.get_image(setup.GFX[Set.ITEM_SHEET],
                                     *image_rect, Set.BLACK, Set.TILE_SIZE_MULTIPLIER)
+   
     
+    #숫자랑 이미지 매칭해서 생성
     def create_score_digit(self):
         self.digit_group = pg.sprite.Group()
         self.digit_list = []
         for digit in str(self.score):
             self.digit_list.append(Digit(self.image_dict[digit]))
         
+        #숫자 사이 간격 10px
         for i, digit in enumerate(self.digit_list):
             digit.rect = digit.image.get_rect()
             digit.rect.x = self.x + (i * 10)
             digit.rect.y = self.y
     
+    #점수 위로 올라갔다가 삭제(y_vel = -3)
     def update(self, score_list):
         for digit in self.digit_list:
             digit.rect.y += self.y_vel
-        
+            
         if (self.y - self.digit_list[0].rect.y) > self.distance:
             score_list.remove(self)
             
@@ -137,6 +154,7 @@ class Elevator(Etc):
                 rect, Set.TILE_SIZE_MULTIPLIER)
         self.name = name
         self.type = type
+        #수직형 높이조정
         if type != Set.ELEVATOR_TYPE_HORIZONTAL:
             self.create_image(x, y, height)
 
@@ -150,15 +168,19 @@ class Elevator(Etc):
         self.rect.x = x
         self.rect.y = y
 
-        top_height = height//2 + 3
+        #경계선 제거
+        top_height = height//2 + 3 
         bottom_height = height//2 - 3
         self.image.blit(img, (0,0), (0, 0, width, top_height))
         num = (elevator_height - top_height) // bottom_height + 1
+        #엘리베이터 쌓아올리기
         for i in range(num):
             y = top_height + i * bottom_height
             self.image.blit(img, (0,y), (0, top_height, width, bottom_height))
+        #배경 검은색(투명화 작업)
         self.image.set_colorkey(Set.BLACK)
 
+    #충돌무시 : 수평형, 하강상태
     def check_ignore_collision(self, level):
         if self.type == Set.ELEVATOR_TYPE_HORIZONTAL:
             return True
@@ -175,6 +197,7 @@ class Slider(Etc):
         self.range_start = range_start
         self.range_end = range_end
         self.direction = direction
+        #수평, 수직 방향 두 가지 존재
         if self.direction == Set.VERTICAL:
             self.y_vel = vel
         else:
@@ -182,7 +205,7 @@ class Slider(Etc):
         
 
     def create_image(self, x, y, num):
-        '''original slider image is short, we need to multiple it '''
+        '''이미지가 짧아서 엘리베이터처럼 중첩해 사용'''
         if num == 1:
             return
         img = self.image
@@ -198,26 +221,33 @@ class Slider(Etc):
             self.image.blit(img, (x,0))
         self.image.set_colorkey(Set.BLACK)
 
+    #이동하다 범위 or 화면 넘어서면 역주행
     def update(self):
         if self.direction ==Set.VERTICAL:
             self.rect.y += self.y_vel
+            #화면 위 벗어나면 아래로 이동해서 상승
             if self.rect.y < -self.rect.h:
                 self.rect.y = Set.SCREEN_HEIGHT
                 self.y_vel = -1
+            #아래 벗어나면 위로 이동해서 하강
             elif self.rect.y > Set.SCREEN_HEIGHT:
                 self.rect.y = -self.rect.h
                 self.y_vel = 1
+            #지정범위보다 위면 시작점 고정 후 하강
             elif self.rect.y < self.range_start:
                 self.rect.y = self.range_start
                 self.y_vel = 1
+            #지정범위보다 아래면 끝점 고정 후 상승
             elif self.rect.bottom > self.range_end:
                 self.rect.bottom = self.range_end
                 self.y_vel = -1
         else:
             self.rect.x += self.x_vel
+            #범위 시작점 넘어가면 우측이동
             if self.rect.x < self.range_start:
                 self.rect.x = self.range_start
                 self.x_vel = 1
+            #범위 끝점 넘어가면 좌측이동
             elif self.rect.left > self.range_end:
                 self.rect.left = self.range_end
                 self.x_vel = -1
