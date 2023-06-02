@@ -50,7 +50,7 @@ class Control():
         self.screen = pg.display.get_surface()
         self.current_time = 0.0
         self.done = False
-        self.clock = pg.time.Clock() #time.Clock()일지도
+        self.clock = pg.time.Clock() 
         self.fps = 60
         self.keys = pg.key.get_pressed()
         self.state_dict = {}

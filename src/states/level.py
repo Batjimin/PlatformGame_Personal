@@ -253,7 +253,7 @@ class Level(tools.State):
                 self.player.state = Set.IN_CASTLE
                 self.player.x_vel = 0
                 self.castle_timer = self.current_time
-                self.flagpole_group.add(etc.CastleFlag(8745, 322))
+                self.flagpole_group.add(etc.CastleFlag(8745, 336))
             elif (checkpoint.type == Set.CHECKPOINT_TYPE_COFFEE and
                     self.player.y_vel < 0):
                 coffee_QR_brick = QR_brick.QR_brick(checkpoint.rect.x, checkpoint.rect.bottom - 40,
