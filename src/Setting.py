@@ -126,7 +126,7 @@ RIGHT_BIG_NORMAL = 'right_big_normal'
 RIGHT_BIG_FIRE = 'right_big_fire'
 
 #플레이어 상태. auto walking은 깃발 도달 시 사용.
-STAND = 'standing'
+STOPPED = 'stopped'
 WALK = 'walk'
 JUMP = 'jump'
 FALL = 'fall'

@@ -72,7 +72,7 @@ class Level(tools.State):
         if type == Set.CHECKPOINT_TYPE_MAP:
             self.player.rect.x = self.viewport.x + self.player_x
             self.player.rect.bottom = self.player_y
-            self.player.state = Set.STAND
+            self.player.state = Set.STOPPED
         elif type == Set.CHECKPOINT_TYPE_ELEVATOR_UP:
             self.player.rect.x = self.viewport.x + self.player_x
             self.player.rect.bottom = Set.GROUND_HEIGHT
