@@ -18,6 +18,7 @@ class Level(tools.State):
         self.death_timer = 0
         self.castle_timer = 0
         
+        #온갖 요소들 초기화
         self.moving_score_list = []
         self.overhead_info = info.Info(self.game_info, Set.LEVEL)
         self.load_map()
@@ -35,6 +36,7 @@ class Level(tools.State):
         self.setup_flagpole()
         self.setup_sprite_groups()
 
+    # 맵 설계 불러오기. src/data/maps/ level_${단계}.json
     def load_map(self):
         map_file = 'level_' + str(self.game_info[Set.LEVEL_NUM]) + '.json'
         file_path = os.path.join('src', 'data', 'maps', map_file)
@@ -42,18 +44,24 @@ class Level(tools.State):
         self.map_data = json.load(f)
         f.close()
         
+    
     def setup_background(self):
+        #이미지 파일 이름 불러오기
         img_name = self.map_data[Set.MAP_IMAGE]
         self.background = setup.GFX[img_name]
         self.bg_rect = self.background.get_rect()
+        #배경 이미지 크기 조절
         self.background = pg.transform.scale(self.background, 
                                     (int(self.bg_rect.width*Set.BACKGROUND_MULTIPLER),
                                     int(self.bg_rect.height*Set.BACKGROUND_MULTIPLER)))
         self.bg_rect = self.background.get_rect()
 
+        #배경 크기에 맞는 표면 생성 후 픽셀 포맷 변환(처리속도 향상)
         self.level = pg.Surface((self.bg_rect.w, self.bg_rect.h)).convert()
+        #현 화면 영역. y좌표 = 이미지 하단으로 한 사각영역 출력
         self.viewport = setup.SCREEN.get_rect(bottom=self.bg_rect.bottom)
 
+    #map_data에 'maps'있으면 시작~끝 위치와 시작점 튜플 추가.
     def setup_maps(self):
         self.map_list = []
         if Set.MAP_MAPS in self.map_data:
@@ -61,39 +69,48 @@ class Level(tools.State):
                 self.map_list.append((data['start_x'], data['end_x'], data['player_x'], data['player_y']))
             self.start_x, self.end_x, self.player_x, self.player_y = self.map_list[0]
         else:
+            #기본값
             self.start_x = 0
             self.end_x = self.bg_rect.w
             self.player_x = 110
             self.player_y = Set.GROUND_HEIGHT
         
     def change_map(self, index, type):
+        #맵 리스트의 튜플에서 가져오기.
         self.start_x, self.end_x, self.player_x, self.player_y = self.map_list[index]
         self.viewport.x = self.start_x
+        #클리어 후 이동 : STOPPED상태
         if type == Set.CHECKPOINT_TYPE_MAP:
             self.player.rect.x = self.viewport.x + self.player_x
             self.player.rect.bottom = self.player_y
             self.player.state = Set.STOPPED
+        #엘리베이터 이동 : 엘리베이터 높이가 플레이어만큼 up
         elif type == Set.CHECKPOINT_TYPE_ELEVATOR_UP:
             self.player.rect.x = self.viewport.x + self.player_x
             self.player.rect.bottom = Set.GROUND_HEIGHT
             self.player.state = Set.UP_ELEVATOR
             self.player.up_elevator_y = self.player_y
             
+    #충돌체 설정.
     def setup_collide(self, name):
         group = pg.sprite.Group()
         if name in self.map_data:
             for data in self.map_data[name]:
+                #데이터에 이름 있으면 충돌체 데이터 추가해 group에 넣고 반환
                 group.add(etc.Collider(data['x'], data['y'], 
                         data['width'], data['height'], name))
         return group
 
+    #엘리베이터 : 충돌체와 마찬가지로 group생성. 반환은 x.
     def setup_elevator(self):
         self.elevator_group = pg.sprite.Group()
+        #엘리베이터 정보 있다면 객체 초기화 후 그룹 추가.
         if Set.MAP_ELEVATOR in self.map_data:
             for data in self.map_data[Set.MAP_ELEVATOR]:
                 self.elevator_group.add(etc.Elevator(data['x'], data['y'],
                     data['width'], data['height'], data['type']))
 
+    #
     def setup_slider(self):
         self.slider_group = pg.sprite.Group()
         if Set.MAP_SLIDER in self.map_data:
@@ -253,7 +270,7 @@ class Level(tools.State):
                 self.player.state = Set.IN_CASTLE
                 self.player.x_vel = 0
                 self.castle_timer = self.current_time
-                self.flagpole_group.add(etc.CastleFlag(8745, 336))
+                self.flagpole_group.add(etc.CastleFlag(8746, 336))
             elif (checkpoint.type == Set.CHECKPOINT_TYPE_COFFEE and
                     self.player.y_vel < 0):
                 coffee_QR_brick = QR_brick.QR_brick(checkpoint.rect.x, checkpoint.rect.bottom - 40,
@@ -600,9 +617,9 @@ class Level(tools.State):
         self.elevator_group.draw(self.level)
         for score in self.moving_score_list:
             score.draw(self.level)
-        if Set.DEBUG:
-            self.ground_step_elevator_group.draw(self.level)
-            self.checkpoint_group.draw(self.level)
+        #if Set.DEBUG:
+        #    self.ground_step_elevator_group.draw(self.level)
+        #    self.checkpoint_group.draw(self.level)
 
         surface.blit(self.level, (0,0), self.viewport)
         self.overhead_info.draw(surface)
