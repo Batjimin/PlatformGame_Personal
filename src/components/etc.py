@@ -13,7 +13,7 @@ class Collider(pg.sprite.Sprite):
         self.name = name
         if Set.DEBUG:
             self.image.fill(Set.RED)
-            #Set.DEBUG가 True인 경우에만 self.image를 Set.RED 색상으로 채움.
+            #디버깅 중에는 self.image를 Set.RED 색상으로 채워보기.
 
 #진행 상태 저장
 class Checkpoint(pg.sprite.Sprite):

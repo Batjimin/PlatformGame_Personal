@@ -462,7 +462,6 @@ class Piranha(Enemy):
 
 class FireStick(pg.sprite.Sprite):
     def __init__(self, center_x, center_y, direction, color, radius, name=Set.FIRESTICK):
-        '''the firestick will rotate around the center of a circle'''
         pg.sprite.Sprite.__init__(self)
 
         self.frames = []
