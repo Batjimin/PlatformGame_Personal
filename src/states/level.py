@@ -3,7 +3,7 @@ import json
 import pygame as pg
 from .. import setup, tools
 from .. import Setting as Set
-from ..components import info, etc, player, tile, QR_brick, enemy, powerup, coin
+from ..components import info, etc, player, tile, QR_brick, enemy, coin
 
 
 class Level(tools.State):
