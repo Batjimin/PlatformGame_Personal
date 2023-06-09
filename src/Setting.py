@@ -183,4 +183,4 @@ EXPLODING = 'exploding'
 
 #IMAGE SHEET
 ENEMY_SHEET = 'enemies'
-ITEM_SHEET = 'item_objects'
+ITEM_SHEET = 'item_images'
