@@ -104,11 +104,12 @@ class Info():
     def create_main_menu_labels(self):
         player1_game = []
         player2_game = []
-
+        top = []
+        top_score = []
 
         self.create_label(player1_game, Set.PLAYER1, 350, 360)
         self.create_label(player2_game, Set.PLAYER2, 350, 405)
-        self.state_labels = [player1_game, player2_game, 
+        self.state_labels = [player1_game, player2_game, top, top_score,
                             *self.info_labels]
     
     def create_load_screen_labels(self):
