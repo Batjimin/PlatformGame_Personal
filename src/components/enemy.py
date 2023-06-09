@@ -20,17 +20,17 @@ def create_enemy(item, level):
         sprite = BOO(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
     elif item['type'] == Set.ENEMY_TYPE_PROF:
-        sprite = Koopa(item['x'], item['y'], dir, color,
+        sprite = Prof(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
     elif item['type'] == Set.ENEMY_TYPE_FLY_PROF:
         isVertical = False if item['is_vertical'] == 0 else True
-        sprite = FlyKoopa(item['x'], item['y'], dir, color,
+        sprite = FlyProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, isVertical)
     elif item['type'] == Set.ENEMY_TYPE_PIRANHA:
         sprite = Piranha(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
     elif item['type'] == Set.ENEMY_TYPE_FIRE_PROF:
-        sprite = FireKoopa(item['x'], item['y'], dir, color,
+        sprite = FireProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, level)
     elif item['type'] == Set.ENEMY_TYPE_FIRESTICK:
         '''use a number of fireballs to stimulate a firestick'''
@@ -253,7 +253,7 @@ class BOO(Enemy):
         elif (self.current_time - self.death_timer) > 500:
             self.kill()
 
-class Koopa(Enemy):
+class Prof(Enemy):
     def __init__(self, x, y, direction, color, in_range,
                 range_start, range_end, name=Set.PROF):
         Enemy.__init__(self)
@@ -288,7 +288,7 @@ class Koopa(Enemy):
         self.rect.bottom = bottom
         self.in_range = False
 
-class FlyKoopa(Enemy):
+class FlyProf(Enemy):
     def __init__(self, x, y, direction, color, in_range, 
                 range_start, range_end, isVertical, name=Set.FLY_PROF):
         Enemy.__init__(self)
@@ -322,7 +322,7 @@ class FlyKoopa(Enemy):
         self.in_range = False
         self.isVertical = False
 
-class FireKoopa(Enemy):
+class FireProf(Enemy):
     def __init__(self, x, y, direction, color, in_range,
                 range_start, range_end, level, name=Set.FIRE_PROF):
         Enemy.__init__(self)
