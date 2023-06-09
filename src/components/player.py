@@ -584,7 +584,7 @@ class Player(pg.sprite.Sprite):
     #사망 직전 점프 시 호출. 여기서 점프 후 death_jump()에서 낙하
     def start_death_jump(self, game_info):
         self.dead = True
-        self.y_vel = -11
+        self.y_vel = -15
         self.gravity = .5
         self.frame_index = 6
         self.state = Set.DEATH_JUMP

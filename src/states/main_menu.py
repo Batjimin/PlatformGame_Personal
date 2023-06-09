@@ -38,7 +38,7 @@ class Menu(tools.State):
         image = tools.get_image(setup.GFX['title_screen'], 1, 60, 176, 88,
                             (255, 0, 220), Set.SIZE_MULTIPLIER)
         rect = image.get_rect()
-        rect.x, rect.y = (170, 100)
+        rect.x, rect.y = (300, 100)
         self.image_dict['GAME_NAME_BOX'] = (image, rect)
 
     def setup_player(self):
@@ -57,7 +57,7 @@ class Menu(tools.State):
         self.cursor = pg.sprite.Sprite()
         self.cursor.image = tools.get_image(setup.GFX[Set.ITEM_SHEET], 24, 160, 8, 8, Set.BLACK, 3)
         rect = self.cursor.image.get_rect()
-        rect.x, rect.y = (220, 358)
+        rect.x, rect.y = (270, 358)
         self.cursor.rect = rect
         self.cursor.state = Set.PLAYER1
 
