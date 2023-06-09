@@ -154,7 +154,7 @@ class Player(pg.sprite.Sprite):
             self.walking_auto()
         elif self.state == Set.END_OF_LEVEL_FALL:
             self.y_vel += self.gravity
-        elif self.state == Set.IN_END:
+        elif self.state == Set.GOAL_IN:
             self.frame_index = 0
         elif self.state == Set.SMALL_TO_BIG:
             self.changing_to_big()

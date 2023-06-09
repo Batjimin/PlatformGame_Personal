@@ -16,7 +16,7 @@ class Level(tools.State):
         self.persist = self.game_info
         self.game_info[Set.CURRENT_TIME] = current_time
         self.death_timer = 0
-        self.castle_timer = 0
+        self.goal_timer = 0
         
         #온갖 요소들 초기화
         self.moving_score_list = []
@@ -229,10 +229,10 @@ class Level(tools.State):
                 self.update_game_info()
                 self.done = True
         #도착하면 플레이어+정보+깃발 상태 업데이트 후 끝
-        elif self.player.state == Set.IN_END:
+        elif self.player.state == Set.GOAL_IN:
             self.player.update(keys, self.game_info, None)
             self.flagpole_group.update()
-            if self.current_time - self.castle_timer > 2000:
+            if self.current_time - self.goal_timer > 2000:
                 self.update_game_info()
                 self.done = True
         #일시정지 상태. 플레이어는 업데이트 불필요
@@ -279,9 +279,9 @@ class Level(tools.State):
                 self.flag.state = Set.SLIDE_DOWN
                 self.update_flag_score()
             elif checkpoint.type == Set.CHECKPOINT_TYPE_END:
-                self.player.state = Set.IN_END
+                self.player.state = Set.GOAL_IN
                 self.player.x_vel = 0
-                self.castle_timer = self.current_time
+                self.goal_timer = self.current_time
                 self.flagpole_group.add(etc.CastleFlag(8746, 336))
             elif (checkpoint.type == Set.CHECKPOINT_TYPE_COFFEE and
                     self.player.y_vel < 0):
@@ -450,7 +450,7 @@ class Level(tools.State):
                 direction = Set.RIGHT if self.player.facing_right else Set.LEFT
                 enemy.start_death_jump(direction)
             #부산물, 장애물은 충돌검사 확인 불필요.
-            elif (
+            elif (enemy.name == Set.PIRANHA or
                 enemy.name == Set.FIRESTICK or
                 enemy.name == Set.FIRE_PROF or
                 enemy.name == Set.FIRE):

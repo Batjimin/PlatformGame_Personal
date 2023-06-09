@@ -1,9 +1,9 @@
-#DEBUG = False
-#DEBUG_START_X = 110
-#DEBUG_START_Y = 538
+DEBUG = False
+DEBUG_START_X = 110
+DEBUG_START_Y = 538
 
-SCREEN_HEIGHT = 600
-SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 700
+SCREEN_WIDTH = 1000
 SCREEN_SIZE = (SCREEN_WIDTH,SCREEN_HEIGHT)
 
 ## COLORS ##
@@ -79,7 +79,7 @@ MAP_ENEMY = 'enemy'
 ENEMY_TYPE_BOO = 0
 ENEMY_TYPE_PROF = 1
 ENEMY_TYPE_FLY_PROF = 2
-
+ENEMY_TYPE_PIRANHA = 3
 ENEMY_TYPE_FIRESTICK = 4
 ENEMY_TYPE_FIRE_PROF = 5
 ENEMY_RANGE = 'range'
@@ -137,7 +137,7 @@ BIG_TO_SMALL = 'big to small'
 FLAGPOLE = 'flag pole'
 WALK_AUTO = 'walk auto'
 END_OF_LEVEL_FALL = 'end of level fall'
-IN_END = 'in end'
+GOAL_IN = 'in goal'
 DOWN_ELEVATOR = 'down elevator'
 UP_ELEVATOR = 'up elevator'
 
@@ -159,6 +159,7 @@ PROF = 'prof'
 FLY_PROF = 'fly prof'
 FIRE_PROF = 'fire prof'
 FIRE = 'fire'
+PIRANHA = 'piranha'
 FIRESTICK = 'firestick'
 
 #boo Stuff
