@@ -450,7 +450,7 @@ class Level(tools.State):
                 direction = Set.RIGHT if self.player.facing_right else Set.LEFT
                 enemy.start_death_jump(direction)
             #부산물, 장애물은 충돌검사 확인 불필요.
-            elif (enemy.name == Set.PIRANHA or
+            elif (
                 enemy.name == Set.FIRESTICK or
                 enemy.name == Set.FIRE_PROF or
                 enemy.name == Set.FIRE):

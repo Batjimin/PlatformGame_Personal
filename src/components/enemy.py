@@ -26,9 +26,6 @@ def create_enemy(item, level):
         isVertical = False if item['is_vertical'] == 0 else True
         sprite = FlyProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, isVertical)
-    elif item['type'] == Set.ENEMY_TYPE_PIRANHA:
-        sprite = Piranha(item['x'], item['y'], dir, color,
-            in_range, range_start, range_end)
     elif item['type'] == Set.ENEMY_TYPE_FIRE_PROF:
         sprite = FireProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, level)
@@ -209,7 +206,7 @@ class Enemy(pg.sprite.Sprite):
                 self.frame_index = 0
 
     def check_y_collisions(self, level):
-        # decrease runtime delay: when enemey is on the ground, don't check tile and QR_brick
+
         if self.rect.bottom >= Set.GROUND_HEIGHT:
             sprite_group = level.ground_step_elevator_group
         else:
@@ -394,41 +391,13 @@ class Fire(Enemy):
 
     def check_x_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
-                            level.tile_group, level.QR_brickbrick_group)
+                            level.tile_group, level.QR_brick_group)
         sprite = pg.sprite.spritecollideany(self, sprite_group)
         if sprite:
             self.kill()
 
     def start_death_jump(self, direction):
         self.kill()
-
-class Piranha(Enemy):
-    def __init__(self, x, y, direction, color, in_range, 
-                range_start, range_end, name=Set.PIRANHA):
-        Enemy.__init__(self)
-        frame_rect_list = self.get_frame_rect(color)
-        self.setup_enemy(x, y, direction, name, setup.GFX[Set.ENEMY_SHEET], 
-                    frame_rect_list, in_range, range_start, range_end)
-        self.state = Set.REVEAL
-        self.y_vel = 1
-        self.wait_timer = 0
-        self.group = pg.sprite.Group()
-        self.group.add(self)
-        
-    def get_frame_rect(self, color):
-        if color == Set.COLOR_TYPE_GREEN:
-            frame_rect_list = [(390, 30, 16, 24), (420, 30, 16, 24)]
-        else:
-            frame_rect_list = [(390, 60, 16, 24), (420, 60, 16, 24)]
-        return frame_rect_list
-
-    def revealing(self):
-        if (self.current_time - self.animate_timer) > 250:
-            if self.frame_index == 0:
-                self.frame_index += 1
-            elif self.frame_index == 1:
-                self.frame_index = 0
-            self.animate_timer = self.current_time
 
     def update_position(self, level):
         if self.check_player_is_on(level):

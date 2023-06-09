@@ -79,7 +79,7 @@ MAP_ENEMY = 'enemy'
 ENEMY_TYPE_BOO = 0
 ENEMY_TYPE_PROF = 1
 ENEMY_TYPE_FLY_PROF = 2
-ENEMY_TYPE_PIRANHA = 3
+
 ENEMY_TYPE_FIRESTICK = 4
 ENEMY_TYPE_FIRE_PROF = 5
 ENEMY_RANGE = 'range'
@@ -159,7 +159,6 @@ PROF = 'prof'
 FLY_PROF = 'fly prof'
 FIRE_PROF = 'fire prof'
 FIRE = 'fire'
-PIRANHA = 'piranha'
 FIRESTICK = 'firestick'
 
 #boo Stuff

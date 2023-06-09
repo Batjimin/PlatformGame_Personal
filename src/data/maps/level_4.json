@@ -43,7 +43,7 @@
     "slider":[
         {"x":5750, "y":238, "num":2, "direction":0, "range_start":5720, "range_end":5930}
     ],
-    "QR_brickbrick":[
+    "QR_brick":[
         {"x":1266, "y":236, "type":3}
     ],
     "enemy":[
