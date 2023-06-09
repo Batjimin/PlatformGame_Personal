@@ -30,8 +30,8 @@ class Menu(tools.State):
         self.background = setup.GFX['level_1']
         self.background_rect = self.background.get_rect()
         self.background = pg.transform.scale(self.background,
-                                    (int(self.background_rect.width*Set.BACKGROUND_MULTIPLER),
-                                    int(self.background_rect.height*Set.BACKGROUND_MULTIPLER)))
+                                    (int(self.background_rect.width*3.2),
+                                    int(self.background_rect.height*3.2)))
         
         self.viewport = setup.SCREEN.get_rect(bottom=setup.SCREEN_RECT.bottom) #스크린 사각영역
         self.image_dict = {}
