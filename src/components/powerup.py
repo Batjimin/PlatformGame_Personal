@@ -1,5 +1,5 @@
 import pygame as pg
-from .. import setup, tools
+from .. import setup
 from .. import Setting as Set
 from . import etc
 
