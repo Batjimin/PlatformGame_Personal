@@ -109,6 +109,8 @@ class Info():
 
         self.create_label(player1_game, Set.PLAYER1, 350, 360)
         self.create_label(player2_game, Set.PLAYER2, 350, 405)
+        self.create_label(top, 'TOP - ', 350, 465)
+        self.create_label(top_score, '000000', 460, 465)
         self.state_labels = [player1_game, player2_game, top, top_score,
                             *self.info_labels]
     
