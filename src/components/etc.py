@@ -100,6 +100,7 @@ class Score():
         self.create_images_dict()
         self.score = score
         self.create_score_digit()
+        #자릿수 간 간격조절
         if self.score==1000:
             self.distance = 130
         else:

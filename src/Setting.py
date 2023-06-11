@@ -170,7 +170,6 @@ BOTTOM_OF_POLE = 'bottom of pole'
 
 #사출기
 FLYING = 'flying'
-BOUNCING = 'bouncing'
 EXPLODING = 'exploding'
 
 #IMAGE SHEET

@@ -28,6 +28,7 @@ class Powerup(etc.Etc):
         elif self.rect.y > (level.viewport.bottom):
             self.kill()
 
+    #벽 접촉 시 방향전환
     def check_x_collisions(self, level):
         sprite_group = pg.sprite.Group(level.ground_step_elevator_group,
                             level.tile_group, level.QR_brick_group)
@@ -131,10 +132,6 @@ class Star(Powerup):
             if self.rect.bottom <= self.QR_brick_height:
                 self.rect.bottom = self.QR_brick_height
                 self.y_vel = -2
-                self.state = Set.BOUNCING
-        elif self.state == Set.BOUNCING:
-            self.y_vel += self.gravity
-            self.x_vel = self.speed if self.direction == Set.RIGHT else -1 * self.speed
         
         if (self.current_time - self.animate_timer) > 30:
             if self.frame_index < 3:
@@ -143,8 +140,6 @@ class Star(Powerup):
                 self.frame_index = 0
             self.animate_timer = self.current_time
         
-        if self.state == Set.BOUNCING:
-            self.update_position(level)
         self.animation()
     
     def check_y_collisions(self, level):
@@ -184,7 +179,7 @@ class FireBall(Powerup):
     def update(self, game_info, level):
         self.current_time = game_info[Set.CURRENT_TIME]
         
-        if self.state == Set.FLYING or self.state == Set.BOUNCING:
+        if self.state == Set.FLYING :
             self.y_vel += self.gravity
             if (self.current_time - self.animate_timer) > 200:
                 if self.frame_index < 3:
@@ -200,8 +195,6 @@ class FireBall(Powerup):
                 else:
                     self.kill()
                 self.animate_timer = self.current_time
-        
-        
         self.animation()
     
     def check_x_collisions(self, level):
@@ -227,7 +220,7 @@ class FireBall(Powerup):
                     self.x_vel = 15
                 else:
                     self.x_vel = -15
-                self.state = Set.BOUNCING
+                
         elif enemy:
             if (enemy.name != Set.FIRESTICK) :
                 level.update_score(100, enemy, 0)
