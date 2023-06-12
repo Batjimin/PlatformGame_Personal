@@ -19,10 +19,10 @@ def create_enemy(item, level):
     if item['type'] == Set.ENEMY_TYPE_BOO:
         sprite = BOO(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
-    elif item['type'] == Set.ENEMY_TYPE_PROF:
+    elif item['type'] == Set.ENEMY_TYPE_BIGBOO:
         sprite = Prof(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
-    elif item['type'] == Set.ENEMY_TYPE_FLY_PROF:
+    elif item['type'] == Set.ENEMY_TYPE_FLY_BOO:
         isVertical = False if item['is_vertical'] == 0 else True
         sprite = FlyProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, isVertical)
