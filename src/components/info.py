@@ -22,7 +22,6 @@ class Info():
         self.create_font_image_dict()
         self.create_info_labels()
         self.create_state_labels()
-        self.flashing_coin = coin.FlashCoin(280, 53)
         
     def create_font_image_dict(self):
         self.image_dict = {}
@@ -56,6 +55,7 @@ class Info():
 
     def create_info_labels(self):
         self.score_text = []
+        self.coin_text_label=[]
         self.coin_count_text = []
         self.score_label = []
         self.world_label = []
@@ -63,13 +63,14 @@ class Info():
         self.stage_label = []
         
         self.create_label(self.score_text, '000000', 75, 55)
-        self.create_label(self.coin_count_text, '*00', 300, 55)
+        self.create_label(self.coin_text_label, 'COIN',270, 30)
+        self.create_label(self.coin_count_text, '00', 270, 55)
         self.create_label(self.score_label, 'SCORE', 75, 30)
         self.create_label(self.world_label, 'HUFS', 472, 30)
         self.create_label(self.time_label, 'TIME', 625, 30)
         self.create_label(self.stage_label, '1-1', 472, 55)
 
-        self.info_labels = [self.score_text, self.coin_count_text, self.score_label,
+        self.info_labels = [self.score_text,self.coin_text_label, self.coin_count_text, self.score_label,
                     self.world_label, self.time_label, self.stage_label]
 
     #프로그램 상태 별 라벨 생성. 라벨은 state속성을 바탕으로 생성된다.
@@ -174,7 +175,6 @@ class Info():
         self.update_text(self.score_text, self.score)
         self.update_text(self.coin_count_text, level_info[Set.TOTAL_COIN])
         self.update_text(self.stage_label, level_info[Set.LEVEL_NUM])
-        self.flashing_coin.update(level_info[Set.CURRENT_TIME])
         if self.state == Set.LOAD_SCREEN:
             self.update_text(self.stage_label2, level_info[Set.LEVEL_NUM]) #레벨 알려주는 라벨
         #시간 오차 조정    
@@ -202,7 +202,7 @@ class Info():
         if self.state == Set.LOAD_SCREEN:
             surface.blit(self.player_image, self.player_rect)
             surface.blit(self.life_times_image, self.life_times_rect)
-        surface.blit(self.flashing_coin.image, self.flashing_coin.rect)
+        
     
     # draw_info() 호출하여 정보 라벨을 그리고 blit() 메소드를 사용하여 이미지 그리기
     def draw_info(self, surface, label_list):
