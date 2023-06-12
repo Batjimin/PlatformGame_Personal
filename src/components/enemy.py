@@ -19,14 +19,14 @@ def create_enemy(item, level):
     if item['type'] == Set.ENEMY_TYPE_BOO:
         sprite = BOO(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
-    elif item['type'] == Set.ENEMY_TYPE_BIGBOO:
+    elif item['type'] == Set.ENEMY_TYPE_PROF:
         sprite = Prof(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
-    elif item['type'] == Set.ENEMY_TYPE_FLY_BOO:
+    elif item['type'] == Set.ENEMY_TYPE_FLY_PROF:
         isVertical = False if item['is_vertical'] == 0 else True
         sprite = FlyProf(item['x'], item['y'], dir, color,
             in_range, range_start, range_end, isVertical)
-    elif item['type'] == Set.ENEMY_TYPE_PIRANHA:
+    elif item['type'] == Set.ENEMY_TYPE_FLOWER:
         sprite = Piranha(item['x'], item['y'], dir, color,
             in_range, range_start, range_end)
     elif item['type'] == Set.ENEMY_TYPE_FIRE_PROF:
@@ -403,7 +403,7 @@ class Fire(Enemy):
 
 class Piranha(Enemy):
     def __init__(self, x, y, direction, color, in_range, 
-                range_start, range_end, name=Set.PIRANHA):
+                range_start, range_end, name=Set.FLOWER):
         Enemy.__init__(self)
         frame_rect_list = self.get_frame_rect(color)
         self.setup_enemy(x, y, direction, name, setup.GFX[Set.ENEMY_SHEET], 
