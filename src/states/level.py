@@ -578,7 +578,7 @@ class Level(tools.State):
         #충돌기준범위 복구
         sprite.rect.y -= 1
     
-    #사망 확인. 화면 높이를 넘어서는 행위도 사망으로 간주.
+    #사망 확인. 화면 하단를 넘어서는 행위도 사망으로 간주.
     def check_for_player_death(self):
         if (self.player.rect.y > Set.SCREEN_HEIGHT or
             self.overhead_info.time <= 0):
